@@ -1,3 +1,64 @@
+<template>
+    <Slide />
+    <div class="container my-5 homePage">
+        <h4 class="text-warning">Categories</h4>
+        <div class="row d-flex justify-content-center">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center">
+                <div class="border productShadow my-3" value="all-categories" v-on:click="selectALl()">
+                    <div class="product ">
+                        <div class="p-1">
+                            <img src="../../../public/ico/tops.png" class="" alt="..." style="height: 50px;">
+                            <h5>All</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center" v-for="items in categoryName"
+                :key="items?.id">
+                <div class="border productShadow my-3" v-on:click="selectCategory(items)">
+                    <div class="product ">
+                        <div class="p-1">
+                            <img :src="categoryImages(items)" class="" alt="..." style="height: 50px;">
+                            <h5>{{ items }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2><i class="fa-solid fa-book"></i></h2>
+        <h4 class="text-warning">Just For You</h4>
+        <div class="text-center m-5" v-if="loading">
+            <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="row g-2" v-else>
+            <div v-for="item in list" :key="item.id" class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                <div class='border productShadow mb-2'>
+                    <div class="product">
+                        <div class="text-center mb-1">
+                            <RouterLink :to="'/productdetail/' + item.id"><img :src="item.images[0]" alt=''
+                                    class="images-class w-100" style="height:150px" /></RouterLink>
+                        </div>
+                        <div class="p-1">
+                            <div class="">
+                                <h6 class="text-muted text-wrap">{{ item?.title.substring(0, 15) }}
+                                </h6>
+                                <span class="">$ {{ item.price }}</span>
+                            </div>
+                            <div class="mt-1 px-2 d-flex justify-content-between align-items-center">
+                                <div class="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <FooterPage />
+</template>
 <script>
 import axios from 'axios';
 import Slide from '../slider/Slide.vue'
@@ -15,14 +76,24 @@ export default {
         return {
             list: [],
             categoryName: [],
-            selectALlCat: []
+            selectALlCat: [],
+            loading: false
         }
     },
     methods: {
         async getProducts() {
-            let res = await axios.get('https://dummyjson.com/products?limit=50')
-            console.log(res)
-            this.list = res.data.products
+            try {
+                this.loading = true
+                let res = await axios.get('https://dummyjson.com/products?limit=50')
+                console.log(res)
+                this.list = res.data.products
+            } catch (error) {
+                console.log(error)
+            } finally {
+                this.loading = false
+            }
+
+
         },
         async categoryFunction() {
             let res = await axios.get('https://dummyjson.com/products/categories')
@@ -31,7 +102,7 @@ export default {
         async selectCategory(i) {
             let response = await axios.get(`https://dummyjson.com/products/category/${i}`)
             this.list = response.data.products
-           
+
             console.log('select', i)
         },
         categoryImages(category) {
@@ -78,11 +149,11 @@ export default {
             }
             return ':'
         },
-       selectALl(){
-        console.log('--------------11111---0------')
-        this.getProducts()
-       }
-        
+        selectALl() {
+            console.log('--------------11111---0------')
+            this.getProducts()
+        }
+
     },
     mounted() {
         this.getProducts()
@@ -92,9 +163,10 @@ export default {
 </script>
 
 <style>
-.productShadow{
+.productShadow {
     cursor: pointer;
 }
+
 .productShadow:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -103,58 +175,3 @@ export default {
     min-height: 100%;
 }
 </style>
-<template>
-<Slide />
-
-<div class="container my-5 homePage">
-    <h4 class="text-warning">Categories</h4>
-    <div class="row d-flex justify-content-center">
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center">
-            <div class="border productShadow my-3" value="all-categories" v-on:click="selectALl()">
-                <div class="product ">
-                    <div class="p-1">
-                        <img src="../../../public/ico/tops.png" class="" alt="..." style="height: 50px;">
-                        <h5>All</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center" v-for="items in categoryName" :key="items?.id">
-            <div class="border productShadow my-3" v-on:click="selectCategory(items)">
-                <div class="product ">
-                    <div class="p-1">
-                        <img :src="categoryImages(items)" class="" alt="..." style="height: 50px;">
-                        <h5>{{ items }}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h2><i class="fa-solid fa-book"></i></h2>
-    <h4 class="text-warning">Just For You</h4>
-    <div class="row g-2">
-        <div v-for="item in list" :key="item.id" class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-            <div class='border productShadow mb-2'>
-                <div class="product">
-                    <div class="text-center mb-1">
-                        <RouterLink :to="'/productdetail/' + item.id"><img :src="item.images[0]" alt='' class="images-class w-100" style="height:150px" /></RouterLink>
-                    </div>
-                    <div class="p-1">
-                        <div class="">
-                            <h6 class="text-muted text-wrap">{{ item?.title.substring(0, 15) }}
-                            </h6>
-                            <span class="">$ {{ item.price }}</span>
-                        </div>
-                        <div class="mt-1 px-2 d-flex justify-content-between align-items-center">
-                            <div class="">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<FooterPage />
-</template>
