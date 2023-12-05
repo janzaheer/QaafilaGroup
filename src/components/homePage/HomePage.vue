@@ -62,6 +62,8 @@
 <script>
 import axios from 'axios';
 import Slide from '../slider/Slide.vue'
+import { Products } from '../../services/Products_services'
+
 import {
     RouterLink
 } from 'vue-router';
@@ -80,20 +82,22 @@ export default {
             loading: false
         }
     },
+    mounted() {
+        this.getProducts()
+        this.categoryFunction()
+    },
     methods: {
         async getProducts() {
             try {
                 this.loading = true
-                let res = await axios.get('https://dummyjson.com/products?limit=50')
-                console.log(res)
-                this.list = res.data.products
+                let resp = await Products()
+                console.log(resp)
+                this.list = resp.products
             } catch (error) {
                 console.log(error)
             } finally {
                 this.loading = false
             }
-
-
         },
         async categoryFunction() {
             let res = await axios.get('https://dummyjson.com/products/categories')
@@ -154,10 +158,6 @@ export default {
             this.getProducts()
         }
 
-    },
-    mounted() {
-        this.getProducts()
-        this.categoryFunction()
     }
 }
 </script>
