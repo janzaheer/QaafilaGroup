@@ -4,8 +4,8 @@
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top grad">
             <div class="container-fluid">
                 <RouterLink class="navbar-brand" to="/">
-                    <!-- <h4 class="mt-2 text-warning">Qaafila</h4> -->
-                    <img src="../../../assets/Qlogo.png" alt="" style="height: 25px;">
+                    <h4 class="mt-1 text-warning">ZedTac</h4>
+                    <!-- <img src="../../../assets/Qlogo.png" alt="" style="height: 25px;"> -->
                 </RouterLink>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
