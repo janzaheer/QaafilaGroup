@@ -111,7 +111,7 @@ export default {
         },
         categoryImages(category) {
             if (category === 'smartphones') {
-                return '../../../public/ico/mobile.png'
+                return '../../../dist/ico/mobile.png'
             } else if (category === 'laptops') {
                 return '../../../public/ico/laptop.png'
             } else if (category === 'fragrances') {
