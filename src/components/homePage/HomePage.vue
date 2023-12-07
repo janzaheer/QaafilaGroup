@@ -110,7 +110,7 @@ export default {
             console.log('select', i)
         },
         categoryImages(category) {
-            if (category == 'smartphones') {
+            if (category === 'smartphones') {
                 return '../../../public/ico/mobile.png'
             } else if (category == 'laptops') {
                 return '../../../public/ico/laptop.png'
