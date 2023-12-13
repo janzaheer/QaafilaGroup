@@ -29,7 +29,7 @@
         <h4 class="text-warning">Just For You</h4>
         <div class="text-center m-5" v-if="loading">
             <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">Loading....</span>
             </div>
         </div>
         <div class="row g-2" v-else>
@@ -48,7 +48,6 @@
                             </div>
                             <div class="mt-1 px-2 d-flex justify-content-between align-items-center">
                                 <div class="">
-
                                 </div>
                             </div>
                         </div>
@@ -91,7 +90,6 @@ export default {
             try {
                 this.loading = true
                 let resp = await Products()
-                console.log(resp)
                 this.list = resp.products
             } catch (error) {
                 console.log(error)
@@ -106,8 +104,6 @@ export default {
         async selectCategory(i) {
             let response = await axios.get(`https://dummyjson.com/products/category/${i}`)
             this.list = response.data.products
-
-            console.log('select', i)
         },
         categoryImages(category) {
             if (category === 'smartphones') {
@@ -154,10 +150,8 @@ export default {
             return ':'
         },
         selectALl() {
-            console.log('--------------11111---0------')
             this.getProducts()
         }
-
     }
 }
 </script>
